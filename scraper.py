@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 # Replace with the URL of the page you want to scrape
 source_url = "https://hdhub4u.capetown"  # Replace with the actual URL
-webhook_url = "YOUR_WEBHOOK_URL"  # Replace with your actual Pabbly webhook URL
+webhook_url = "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZjMDYzMjA0M2Q1MjY1NTUzNTUxMzYi_pc"  # Replace with your actual Pabbly webhook URL
 
 # Step 1: Fetch the web page
 response = requests.get(source_url)
