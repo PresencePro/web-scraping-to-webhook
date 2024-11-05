@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 # Replace with the URL of the page you want to scrape
 source_url = "https://hdhub4u.capetown"  # Replace with the actual URL
-webhook_url = "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZjMDYzMjA0M2Q1MjY1NTUzNTUxMzYi_pc"  # Replace with your actual Pabbly webhook URL
+webhook_url = "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZjMDYzMjA0M2Q1MjY1NTUzNTUxMzYi_pc"  # Your actual Pabbly webhook URL
 
 # Step 1: Fetch the web page
 response = requests.get(source_url)
@@ -26,14 +26,21 @@ if response.status_code == 200:
         link_tag = movie.find("a")
         link_url = link_tag['href'] if link_tag else None
 
-        # Prepare data for webhook
-        data = {
-            "title": title,
-            "image_url": img_url,
-            "link": link_url
-        }
+        # Prepare HTML formatted data for webhook
+        html_data = f"""
+        <div class="movie-post">
+            <h2 class="movie-title">{title}</h2>
+            <a href="{link_url}" target="_blank">
+                <img src="{img_url}" alt="{title}" style="width:100%; height:auto;">
+            </a>
+            <p>{title} - Latest Movie Release</p>
+        </div>
+        """
 
-        # Send data to Pabbly webhook
+        # Send HTML data to Pabbly webhook
+        data = {
+            "html_content": html_data
+        }
         response = requests.post(webhook_url, json=data)
         if response.status_code == 200:
             print("Data sent successfully to Pabbly for:", title)
